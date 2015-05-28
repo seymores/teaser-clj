@@ -30,11 +30,11 @@
          (get-from-indices sentences)
          (string/join "  "))))
 
-(defn merge-score-order-sentence
+(defn merge-sentence-score-order
   [sentences scores]
   (for [i scores] { :order (key i) :sentence (nth sentences (key i)) :score (val i) }))
 
-(defn summarize-as-sentences
+(defn summarize-with-score
   [title sentences]
   (let [words        (filter-symbols (mapcat parsing/tokenize sentences))
         lowercase    (map string/lower-case sentences)
@@ -46,26 +46,25 @@
     (->> (filter-stopwords-string title)
          (score-sentences lowercase keyword-map wordcount)
          (top-x 4)
-         (merge-score-order-sentence sentences)
+         (merge-sentence-score-order sentences)
          (sort-by :order))))
 
 (defn summarize-url
   "Returns a five-sentence (max) summary of the given url."
   [url]
   (let [{:keys [title sentences]}  (process-html url)]
-    (println "title=" title)
-    (println "sentences=" sentences)
-    (summarize-as-sentences title (parsing/get-sentences sentences))))
-
-(defn- summarize-url-with-boilerpipe
-  "Returns a five-sentence (max) summary of the given url."
-  [t url]
-  (let [sentences  (-> url slurp boilerpipe/get-text parsing/get-sentences)
-        title t]
-    (summarize-as-sentences t sentences)))
+    (summarize-with-score title (parsing/get-sentences sentences))))
 
 (defn summarize-text
   "Returns a five-sentence (max) summary of the given story and title."
   [title story]
   (let [sentences (parsing/get-sentences story)]
     (summarize title sentences)))
+
+;; (defn- summarize-url-with-boilerpipe
+;;   "Returns a five-sentence (max) summary of the given url."
+;;   [t url]
+;;   (let [sentences  (-> url slurp boilerpipe/get-text parsing/get-sentences)
+;;         title t]
+;;     (summarize-as-sentences t sentences)))
+

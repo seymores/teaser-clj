@@ -16,10 +16,10 @@
 ;;   [url]
 ;;   (html/html-resource (as-url url)))
 
-(defn fetch-page
-  [url]
-  (let [body (http/get url {:as :stream})]
-    (html/html-resource (:body @body))))
+;; (defn fetch-page
+;;   [url]
+;;   (let [body (http/get url {:as :stream})]
+;;     (html/html-resource (:body @body))))
 
 (defn sentences-from-html
   "Returns the sentences from enlive html."
@@ -33,14 +33,11 @@
     (catch IllegalArgumentException e)))
 
 (defn process-html
-  "Returns a map with the title, words, and sentences
-  from a given url."
+  "Returns a map with the title, words, and sentences from a given url."
   [url]
-  (let [page (http/get url {:as :stream})
+  (let [page (http/get url {:as :stream :keepalive 10000})
         body (:body @page)
         content (html/html-resource body)
-        bodyText (:body @(http/get url))]
-    (println "--body=" )
+        bodyText (:body @(http/get url)) ]
     {:title (title-from-html content)
      :sentences  (boilerpipe/get-text bodyText boilerpipe-clj.extractors/article-sentence-extractor)}))
-     ;; :sentences (sentences-from-html content)}))
