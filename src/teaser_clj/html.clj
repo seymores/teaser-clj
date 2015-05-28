@@ -2,6 +2,8 @@
   (:require [teaser-clj.parsing :as parsing]
             [net.cgrand.enlive-html :as html]
             [clojure.java.io :refer [as-url]]
+            [org.httpkit.client :as http]
+            [boilerpipe-clj.core :as boilerpipe]
             [clojure.string :refer [lower-case split]]))
 
 (defn title-from-html
@@ -9,10 +11,15 @@
   [html]
   (first (map lower-case (html/select html [:title html/text-node]))))
 
-(defn fetch-url
-  "Grabs a given URI and returns enlive html of the page."
+;; (defn fetch-url
+;;   "Grabs a given URI and returns enlive html of the page."
+;;   [url]
+;;   (html/html-resource (as-url url)))
+
+(defn fetch-page
   [url]
-  (html/html-resource (as-url url)))
+  (let [body (http/get url {:as :stream})]
+    (html/html-resource (:body @body))))
 
 (defn sentences-from-html
   "Returns the sentences from enlive html."
@@ -29,6 +36,11 @@
   "Returns a map with the title, words, and sentences
   from a given url."
   [url]
-  (let [content (fetch-url url)]
+  (let [page (http/get url {:as :stream})
+        body (:body @page)
+        content (html/html-resource body)
+        bodyText (:body @(http/get url))]
+    (println "--body=" )
     {:title (title-from-html content)
-     :sentences (sentences-from-html content)}))
+     :sentences  (boilerpipe/get-text bodyText boilerpipe-clj.extractors/article-sentence-extractor)}))
+     ;; :sentences (sentences-from-html content)}))

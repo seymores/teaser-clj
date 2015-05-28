@@ -8,5 +8,6 @@
                  [clojure-opennlp "0.3.3"]
                  [io.curtis/boilerpipe-clj "0.3.0"]
                  [org.clojure/clojure "1.6.0"]
+                 [http-kit "2.1.18"]
                  [org.clojure/data.priority-map "0.0.5"]
                  [org.clojure/math.numeric-tower "0.0.4"]])

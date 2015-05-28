@@ -30,11 +30,11 @@
          (get-from-indices sentences)
          (string/join "  "))))
 
-(defn merge-score
+(defn merge-score-order-sentence
   [sentences scores]
   (for [i scores] { :order (key i) :sentence (nth sentences (key i)) :score (val i) }))
 
-(defn summarize-as-list
+(defn summarize-as-sentences
   [title sentences]
   (let [words        (filter-symbols (mapcat parsing/tokenize sentences))
         lowercase    (map string/lower-case sentences)
@@ -45,26 +45,24 @@
                           (normalize wordcount))]
     (->> (filter-stopwords-string title)
          (score-sentences lowercase keyword-map wordcount)
-         (top-x 5)
-         (merge-score sentences)
-         ;; (keys)
-         ;; (get-from-indices sentences)
-         )))
+         (top-x 4)
+         (merge-score-order-sentence sentences)
+         (sort-by :order))))
 
 (defn summarize-url
   "Returns a five-sentence (max) summary of the given url."
   [url]
   (let [{:keys [title sentences]}  (process-html url)]
-    (summarize title sentences)))
+    (println "title=" title)
+    (println "sentences=" sentences)
+    (summarize-as-sentences title (parsing/get-sentences sentences))))
 
-(defn summarize-url-with-boilerpipe
+(defn- summarize-url-with-boilerpipe
   "Returns a five-sentence (max) summary of the given url."
-  [url]
+  [t url]
   (let [sentences  (-> url slurp boilerpipe/get-text parsing/get-sentences)
-        title "Today news"]
-    ;; (clojure.pprint/pprint sentences)
-    (summarize-as-list title sentences)))
-
+        title t]
+    (summarize-as-sentences t sentences)))
 
 (defn summarize-text
   "Returns a five-sentence (max) summary of the given story and title."
