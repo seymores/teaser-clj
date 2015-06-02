@@ -1,6 +1,6 @@
 # summarizer
 
-[![Clojars Project](http://clojars.org/textteaser-clj/latest-version.svg)](http://clojars.org/textteaser-clj)
+[![Clojars Project](http://clojars.org/seymores/textteaser-clj/latest-version.svg)](http://clojars.org/seymores/textteaser-clj)
 
 A Clojure library that's a port of the [Python library](https://github.com/xiaoxu193/PyTeaser) that's a port of the [Scala library](https://github.com/MojoJolo/textteaser).
 
