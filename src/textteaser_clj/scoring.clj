@@ -1,5 +1,5 @@
-(ns teaser-clj.scoring
-  (:require [teaser-clj.stopwords :refer [split-sentence filter-stopwords-string]]
+(ns textteaser-clj.scoring
+  (:require [textteaser-clj.stopwords :refer [split-sentence filter-stopwords-string]]
             [clojure.data.priority-map :refer [priority-map]]
             [clojure.math.numeric-tower :refer [expt abs]]
             [clojure.set :refer [intersection]]

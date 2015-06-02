@@ -1,5 +1,5 @@
-(ns teaser-clj.html
-  (:require [teaser-clj.parsing :as parsing]
+(ns textteaser-clj.html
+  (:require [textteaser-clj.parsing :as parsing]
             [net.cgrand.enlive-html :as html]
             [clojure.java.io :refer [as-url]]
             [org.httpkit.client :as http]

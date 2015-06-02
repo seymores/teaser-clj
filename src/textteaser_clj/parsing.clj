@@ -1,4 +1,4 @@
-(ns teaser-clj.parsing
+(ns textteaser-clj.parsing
   (:require [opennlp.nlp :refer [make-sentence-detector make-tokenizer]]
             [clojure.java.io :refer [resource]]))
 

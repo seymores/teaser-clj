@@ -1,8 +1,8 @@
-(ns teaser-clj.core
-  (:require [teaser-clj.html :refer [process-html]]
-            [teaser-clj.parsing :as parsing]
-            [teaser-clj.scoring :refer [score-sentences top-x normalize]]
-            [teaser-clj.stopwords :refer [filter-stopwords-string
+(ns textteaser-clj.core
+  (:require [textteaser-clj.html :refer [process-html]]
+            [textteaser-clj.parsing :as parsing]
+            [textteaser-clj.scoring :refer [score-sentences top-x normalize]]
+            [textteaser-clj.stopwords :refer [filter-stopwords-string
                                           filter-stopwords-wordmap
                                           filter-symbols]]
             [boilerpipe-clj.core :as boilerpipe]
@@ -60,11 +60,4 @@
   [title story]
   (let [sentences (parsing/get-sentences story)]
     (summarize title sentences)))
-
-;; (defn- summarize-url-with-boilerpipe
-;;   "Returns a five-sentence (max) summary of the given url."
-;;   [t url]
-;;   (let [sentences  (-> url slurp boilerpipe/get-text parsing/get-sentences)
-;;         title t]
-;;     (summarize-as-sentences t sentences)))
 
