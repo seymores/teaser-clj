@@ -1,6 +1,6 @@
 # summarizer
 
-[![Clojars Project](http://clojars.org/teaser-clj/latest-version.svg)](http://clojars.org/teaser-clj)
+[![Clojars Project](http://clojars.org/textteaser-clj/latest-version.svg)](http://clojars.org/textteaser-clj)
 
 A Clojure library that's a port of the [Python library](https://github.com/xiaoxu193/PyTeaser) that's a port of the [Scala library](https://github.com/MojoJolo/textteaser).
 
@@ -9,23 +9,7 @@ A Clojure library that's a port of the [Python library](https://github.com/xiaox
 ### Leiningen
 
 ```
-[teaser-clj "0.4.0"]
-```
-
-### Gradle
-
-```
-compile "teaser-clj:teaser-clj:0.4.0"
-```
-
-### Maven
-
-```
-<dependency>
-  <groupId>teaser-clj</groupId>
-  <artifactId>teaser-clj</artifactId>
-  <version>0.4.0</version>
-</dependency>
+[textteaser-clj "0.1.2"]
 ```
 
 ### In code

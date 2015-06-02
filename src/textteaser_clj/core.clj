@@ -8,11 +8,15 @@
             [boilerpipe-clj.core :as boilerpipe]
             [clojure.string :as string]))
 
-(defn get-from-indices
+(defn- get-from-indices
   "Returns the values from a data structure corresponding to passed indices."
   [sentences indices]
   (for [i indices]
     (nth sentences i)))
+
+(defn- merge-sentence-score-order
+  [sentences scores]
+  (for [i scores] { :order (key i) :sentence (nth sentences (key i)) :score (val i) }))
 
 (defn summarize
   [title sentences]
@@ -29,10 +33,6 @@
          (keys)
          (get-from-indices sentences)
          (string/join "  "))))
-
-(defn merge-sentence-score-order
-  [sentences scores]
-  (for [i scores] { :order (key i) :sentence (nth sentences (key i)) :score (val i) }))
 
 (defn summarize-with-score
   [title sentences]
@@ -53,7 +53,7 @@
   "Returns a five-sentence (max) summary of the given url."
   [url]
   (let [{:keys [title sentences]}  (process-html url)]
-    (summarize-with-score title (parsing/get-sentences sentences))))
+    (summarize title (parsing/get-sentences sentences))))
 
 (defn summarize-text
   "Returns a five-sentence (max) summary of the given story and title."
@@ -61,3 +61,14 @@
   (let [sentences (parsing/get-sentences story)]
     (summarize title sentences)))
 
+(defn summarize-url-with-score
+  "Returns a five-sentence (max) summary of the given url."
+  [url]
+  (let [{:keys [title sentences]}  (process-html url)]
+    (summarize-with-score title (parsing/get-sentences sentences))))
+
+(defn summarize-text-with-score
+  "Returns a five-sentence (max) summary of the given story and title."
+  [title story]
+  (let [sentences (parsing/get-sentences story)]
+    (summarize-with-score title sentences)))

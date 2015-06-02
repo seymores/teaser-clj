@@ -1,4 +1,4 @@
-(defproject textteaser-clj "0.1.0"
+(defproject seymores/textteaser-clj "0.1.1"
   :description "Summarize urls."
   :url "https://clojars.org/textteaser-clj"
   :license {:name "Eclipse Public License"

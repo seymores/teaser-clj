@@ -6,8 +6,7 @@
 (declare stopwords)
 
 (def symbols
-  #{"." "," "?" "!" ":" ";" "-" "_" "("
-    ")" "[" "]" "'" "/" "\\" "\""})
+  #{"." "," "?" "!" ":" ";" "-" "_" "(" ")" "[" "]" "'" "/" "\\" "\""})
 
 (defn split-sentence
   "Takes a string and returns a coll of the words."
@@ -25,7 +24,6 @@
 (defn filter-stopwords-string
   [string]
   (remove stopwords (split-sentence string)))
-  ;; (->> (split-sentence string) (remove stopwords)))
 
 (defn filter-symbols
   [n]

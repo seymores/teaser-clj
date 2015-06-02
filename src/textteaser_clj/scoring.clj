@@ -23,7 +23,6 @@
 (defn normalize
   [c keywords]
   (zipmap (keys keywords) (map #(normalizer c %) (vals keywords))))
-  ;; (->> (map #(normalizer c %) (vals keywords)) (zipmap (keys keywords))))
 
 (defn titlescore
   [s t]
@@ -123,9 +122,4 @@
       (map-indexed
         (fn [idx itm]
           (score itm idx keyword-map wordcount titlewords length))
-        sentences))
-
-    ;; (into [] (map-indexed
-    ;;           (fn [idx itm] (score itm idx keyword-map wordcount titlewords length))
-    ;;           sentences))
-    ))
+        sentences))))
