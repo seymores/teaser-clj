@@ -24,8 +24,8 @@
 
 (defn filter-stopwords-string
   [string]
-  (->> (split-sentence string)
-       (remove stopwords)))
+  (remove stopwords (split-sentence string)))
+  ;; (->> (split-sentence string) (remove stopwords)))
 
 (defn filter-symbols
   [n]

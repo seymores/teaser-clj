@@ -22,8 +22,8 @@
 
 (defn normalize
   [c keywords]
-  (->> (map #(normalizer c %) (vals keywords))
-       (zipmap (keys keywords))))
+  (zipmap (keys keywords) (map #(normalizer c %) (vals keywords))))
+  ;; (->> (map #(normalizer c %) (vals keywords)) (zipmap (keys keywords))))
 
 (defn titlescore
   [s t]
@@ -66,7 +66,7 @@
 
 (defn sbs
   [s keyword-map]
-  (if (= 0 (count (split-sentence s)))
+  (if (zero? (count (split-sentence s)))
     0
     (let [subscore (apply + (sbs-sub (split-sentence s) keyword-map))]
       (/ (* (/ 1 (count (split-sentence s))) subscore) 10))))
@@ -81,7 +81,7 @@
         (doseq [i (range (count sa))
                 :let [s (nth sa i)
                       score (get-keyword-score keyword-map s)]]
-          (if (= 0 i)
+          (if (zero? i)
             (reset! f (vector i score))
             (do
               (reset! t @f)
@@ -90,8 +90,8 @@
                 (swap! r + (-> (second @t)
                                (* (second @f))
                                (/ (expt d 2))))))))
-        (let [k (+ 1 (count (common-elements (keys keyword-map) sa)))]
-          (* (/ 1 (* k (+ k 1))) @r)))
+        (let [k (inc (count (common-elements (keys keyword-map) sa)))]
+          (* (/ 1 (* k (inc k))) @r)))
       @r)))
 
 (defn final-score
@@ -119,6 +119,13 @@
 (defn score-sentences
   [sentences keyword-map wordcount titlewords]
   (let [length (count sentences)]
-    (into [] (map-indexed
-              (fn [idx itm] (score itm idx keyword-map wordcount titlewords length))
-              sentences))))
+    (vec
+      (map-indexed
+        (fn [idx itm]
+          (score itm idx keyword-map wordcount titlewords length))
+        sentences))
+
+    ;; (into [] (map-indexed
+    ;;           (fn [idx itm] (score itm idx keyword-map wordcount titlewords length))
+    ;;           sentences))
+    ))
