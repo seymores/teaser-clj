@@ -18,7 +18,7 @@
   [sentences scores]
   (for [i scores] { :order (key i) :sentence (nth sentences (key i)) :score (val i) }))
 
-(defn summarize
+(defn summarize-without-score
   [title sentences]
   (let [words        (filter-symbols (mapcat parsing/tokenize sentences))
         lowercase    (map string/lower-case sentences)
@@ -53,13 +53,13 @@
   "Returns a five-sentence (max) summary of the given url."
   [url]
   (let [{:keys [title sentences]}  (process-html url)]
-    (summarize title (parsing/get-sentences sentences))))
+    (summarize-without-score title (parsing/get-sentences sentences))))
 
 (defn summarize-text
-  "Returns a five-sentence (max) summary of the given story and title."
+  "Returns a four-sentence summary of the given story and title."
   [title story]
   (let [sentences (parsing/get-sentences story)]
-    (summarize title sentences)))
+    (summarize-without-score title sentences)))
 
 (defn summarize-url-with-score
   "Returns a five-sentence (max) summary of the given url."
@@ -68,7 +68,8 @@
     (summarize-with-score title (parsing/get-sentences sentences))))
 
 (defn summarize-text-with-score
-  "Returns a five-sentence (max) summary of the given story and title."
+  "Returns a four-sentence (max) summary of the given story and title."
   [title story]
   (let [sentences (parsing/get-sentences story)]
     (summarize-with-score title sentences)))
+
